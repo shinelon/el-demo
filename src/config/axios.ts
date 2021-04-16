@@ -54,10 +54,6 @@ _axios.interceptors.request.use(
   // 响应拦截器
 _axios.interceptors.response.use(
     function(response: AxiosResponse) {
-      // token过期，续期token
-      if (response.data?.code === 401) {
-
-      }
       if (response.status === 200) {
         // 处理接口中的data
         if (response.data?.data) {
