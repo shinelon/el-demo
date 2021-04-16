@@ -13,36 +13,58 @@
           </el-form-item>
 
           <el-form-item>
-            <el-button type="primary" @click="onSubmit">生成付款码</el-button>
+            <el-button type="primary" @click="getPayToken"
+              >获取支付token</el-button
+            >
             <el-button>取消</el-button>
           </el-form-item>
         </el-form>
       </div>
     </el-col>
     <el-col :span="8">
-      <div class="grid-content bg-purple"></div>
+      <div class="grid-content">
+        <el-form ref="form" :model="form" label-width="80px">
+          <el-form-item label="payToken">
+             <el-input type="text" v-model="payToken"></el-input>
+          </el-form-item>
+        </el-form>
+      </div>
     </el-col>
     <el-col :span="4"><div class="grid-content"></div></el-col>
   </el-row>
 </template>
 
-<script>
+<script lang = 'ts'>
+import { defineComponent } from "vue";
+import { responseDataType } from "../type/ComponentDataType";
+import PayAPI from "../api/PayAPI";
 
-
-export default {
-  data: function () {
+const Pay = defineComponent({
+  name: "Pay",
+  data() {
     return {
       Authorization: "",
       amount: "",
+      payToken: "",
     };
   },
   methods: {
-    onSubmit() {
+    getPayToken: function () {
       console.log("submit!");
       console.log(this.$data.Authorization);
+      PayAPI.payToken(this.$data.Authorization).then(
+        (res: responseDataType) => {
+          if (res.code == 0) {
+            console.log(res.data);
+            this.$data.payToken = res.data.token;
+          }
+        }
+      );
     },
   },
-};
+});
+
+export default Pay;
 </script>
 <style>
 .el-col {

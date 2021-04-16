@@ -1,5 +1,4 @@
 import httpRequest from "@/config/axios";
-import base from "@/api/base";
 
 // 定义参数类型
 type paramsType<T = any> = {
@@ -8,9 +7,9 @@ type paramsType<T = any> = {
 
 const payAPI = {
     //获取支付token
-    payToken(authToken:String) {
-        return httpRequest.post(`${base.devFrontUrl}/elpay/token`,null,{
-            headers: {"Authorization" : authToken} 
+    payToken(authToken: String) {
+        return httpRequest.post('/elpay/token', null, {
+            headers: { "Authorization": authToken }
         });
     }
 }
