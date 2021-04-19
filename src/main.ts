@@ -4,13 +4,12 @@ import store from './store'
 import router from './router'
 import ElementPlus from 'element-plus';
 import 'element-plus/lib/theme-chalk/index.css';
-import api from "./api/index";
+import JsonViewer from "vue3-json-viewer"
 
 const app = createApp(App);
-// // 挂载api
-app.config.globalProperties.$api = api;
 
 app.use(router)
     .use(store)
     .use(ElementPlus)
+    .use(JsonViewer)
     .mount('#app')
