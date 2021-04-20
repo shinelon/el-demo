@@ -85,6 +85,7 @@ const Pay = defineComponent({
     const loopFlag = ref(true);
 
     const getQrCodeAndQuery = (): boolean => {
+      loopFlag.value = true;
       let result = false;
       getQrCode();
       const loopQuery = () => {
