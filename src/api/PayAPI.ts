@@ -11,6 +11,11 @@ const payAPI = {
             headers: { "Authorization": authToken }
         });
     },
+    pcPay(authToken: String, params: paramsType) {
+        return httpRequest.post('/elpay/pcPay', params, {
+            headers: { "Authorization": authToken }
+        });
+    },
     pay(authToken: String, params: paramsType) {
         return httpRequest.post('/elpay/pay', params, {
             headers: { "Authorization": authToken }

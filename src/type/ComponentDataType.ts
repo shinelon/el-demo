@@ -8,3 +8,6 @@ export type responseDataType<T = any> = {
     fileName?: string;
     count?: number; // 数据总条数
 };
+
+
+export type responseString = "";

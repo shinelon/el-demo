@@ -26,6 +26,7 @@
             >
           </el-form-item>
           <el-form-item>
+            <el-button type="primary" @click="getPcPage">pc页面</el-button>
             <el-button type="primary" @click="queryPay">查询支付结果</el-button>
           </el-form-item>
         </el-form>
@@ -57,13 +58,23 @@
     <el-col :span="8">
       <div class="grid-content">
         <el-image
-          style="width: 300px; height: 300px"
+          style="width: 500px; height: 500px"
           :src="qrCodeUrl"
           fit="fill"
         ></el-image>
       </div>
     </el-col>
+    <el-col :span="4"> </el-col>
+  </el-row>
+  <el-row :gutter="20">
     <el-col :span="4"><div class="grid-content"></div></el-col>
+    <el-col :span="8"> </el-col>
+    <el-col :span="8">
+      <div class="grid-content">
+        <iframe :src="iframeSrc" width="300px" height="300px"> </iframe>
+      </div>
+    </el-col>
+    <el-col :span="4"> </el-col>
   </el-row>
 </template>
 
@@ -81,8 +92,28 @@ const Pay = defineComponent({
     const qrCodeUrl = ref("");
     const orderNo = ref("");
     const jsonData = ref({});
-
     const loopFlag = ref(true);
+    const iframeSrc = ref("");
+
+    const getPcPage = (): boolean => {
+      console.log("getPcPage!");
+      let params = {
+        goodsName: "充值",
+        payChannel: "alipay",
+        totalAmount: amount.value,
+        token: payToken.value,
+      };
+      PayAPI.pcPay(Authorization.value, params).then(
+        (res: responseDataType) => {
+          jsonData.value = res;
+          console.info(res);
+          console.info(iframeSrc);
+          console.info(res.toString());
+          iframeSrc.value = res.toString();
+        }
+      );
+      return false;
+    };
 
     const getQrCodeAndQuery = (): boolean => {
       loopFlag.value = true;
@@ -160,10 +191,13 @@ const Pay = defineComponent({
       amount.value = "";
       payToken.value = "";
       qrCodeUrl.value = "";
+      iframeSrc.value = "";
       orderNo.value = "";
       jsonData.value = {};
     };
     return {
+      getPcPage,
+      iframeSrc,
       getQrCodeAndQuery,
       queryPay,
       getQrCode,
